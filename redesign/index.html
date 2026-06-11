@@ -50,9 +50,26 @@ header{position:sticky;top:0;z-index:100;background:rgba(252,249,243,.92);backdr
 .nav{display:flex;align-items:center;justify-content:space-between;height:72px;gap:32px}
 .logo img{height:44px;width:auto;filter:brightness(.25) sepia(.4) hue-rotate(80deg) saturate(2)}
 .nav-links{display:flex;gap:30px;font-size:14px;font-weight:500;letter-spacing:.03em}
-.nav-links a{position:relative;padding:6px 0;white-space:nowrap}
-.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--clay);transition:width .25s}
-.nav-links a:hover::after{width:100%}
+.nav-links>a,.nav-item>a{position:relative;padding:26px 0;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.nav-links>a::after,.nav-item>a::after{content:"";position:absolute;left:0;bottom:19px;width:0;height:1.5px;background:var(--clay);transition:width .25s}
+.nav-links>a:hover::after,.nav-item:hover>a::after{width:100%}
+
+/* ============ MEGA MENU ============ */
+.nav-item{position:static}
+.chev{width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);margin-top:-3px;transition:transform .25s;opacity:.55}
+.nav-item:hover .chev{transform:rotate(225deg);margin-top:3px}
+.mega{position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 50px 70px -40px rgba(22,19,16,.35);opacity:0;visibility:hidden;transform:translateY(-14px);transition:opacity .28s ease,transform .28s ease,visibility .28s;pointer-events:none}
+.nav-item:hover .mega,.nav-item:focus-within .mega{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+.mega-inner{max-width:1200px;margin:0 auto;padding:46px 24px 52px;display:grid;grid-template-columns:300px 1fr;gap:60px;align-items:start}
+.mega-label .eyebrow{color:var(--clay);margin-bottom:12px;display:block}
+.mega-label h4{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.22;color:var(--ink)}
+.mega-label p{font-size:13.5px;color:rgba(22,19,16,.55);margin-top:12px;line-height:1.6}
+.mega-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 36px;align-content:start}
+.mega-item{display:flex;gap:16px;align-items:center;padding:12px 14px;border-radius:5px;transition:background .2s}
+.mega-item:hover{background:var(--bone)}
+.mega-item img{width:60px;height:60px;border-radius:7px;object-fit:cover;flex-shrink:0}
+.mega-item b{display:block;font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.mega-item span{font-size:12.5px;color:rgba(22,19,16,.55);line-height:1.45;display:block}
 .nav-actions{display:flex;align-items:center;gap:18px}
 .nav-actions svg{width:21px;height:21px;stroke:var(--ink);fill:none;stroke-width:1.6}
 .cart-btn{position:relative;cursor:pointer}
@@ -179,6 +196,19 @@ section{padding:104px 0}
 .prod-body .pprice small{color:rgba(22,19,16,.5);font-weight:400}
 .prod-body .btn{padding:12px 16px;font-size:13px;width:100%}
 
+/* ============ CEREMONY TOOLS ============ */
+.ceremony{background:var(--paper);border-top:1px solid var(--line)}
+.tool-desc{font-size:13.5px;color:rgba(22,19,16,.6);line-height:1.55;margin-bottom:14px}
+.kit-band{margin-top:44px;background:var(--forest);border-radius:4px;color:var(--bone);display:grid;grid-template-columns:auto 1fr auto;gap:40px;align-items:center;padding:38px 48px}
+.kit-imgs{display:flex}
+.kit-imgs img{width:78px;height:78px;border-radius:50%;object-fit:cover;border:3px solid var(--forest-2);margin-left:-20px;background:var(--sand)}
+.kit-imgs img:first-child{margin-left:0}
+.kit-band h3{font-family:var(--serif);font-size:27px;font-weight:500;color:#fff;margin-bottom:7px}
+.kit-band p{font-size:14.5px;color:rgba(247,242,232,.65);max-width:520px}
+.kit-cta{text-align:right}
+.kit-price{font-family:var(--serif);font-size:30px;color:var(--gold-light);margin-bottom:14px}
+.kit-price small{font-family:var(--sans);font-size:15px;color:rgba(247,242,232,.45);text-decoration:line-through;margin-right:10px}
+
 /* ============ TRIBES ============ */
 .tribes{background:var(--forest-2);color:var(--bone)}
 .tribes .sec-head h2{color:var(--bone)}
@@ -250,6 +280,8 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
   .value-item{border-left:none}
   .foot-main{grid-template-columns:1fr 1fr}
   section{padding:72px 0}
+  .kit-band{grid-template-columns:1fr;gap:24px;padding:32px 28px}
+  .kit-cta{text-align:left}
 }
 @media (max-width:560px){
   .intentions-grid,.prod-grid,.tribes-grid{grid-template-columns:1fr}
@@ -265,11 +297,78 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
   <div class="wrap nav">
     <a href="#" class="logo"><img src="assets/logo.webp" alt="Sacred Connection"></a>
     <nav class="nav-links">
-      <a href="#shop">Shop Hapé</a>
-      <a href="#intentions">Shop by Intention</a>
+      <div class="nav-item">
+        <a href="#shop">Shop Hapé <span class="chev"></span></a>
+        <div class="mega">
+          <div class="mega-inner">
+            <div class="mega-label">
+              <span class="eyebrow">The Medicine</span>
+              <h4>Find the blend your spirit is asking for.</h4>
+              <p>Forty-plus medicines from nine tribal nations. One standard: pure, ceremonial, fair-trade.</p>
+            </div>
+            <div class="mega-grid">
+              <a class="mega-item" href="#shop"><img src="assets/prod-feminine-force.png" alt=""><div><b>All Hapé Blends</b><span>40+ medicines from nine nations</span></div></a>
+              <a class="mega-item" href="#intentions"><img src="assets/intent-clarity.jpg" alt=""><div><b>Shop by Intention</b><span>Grounding · clarity · cleansing · connection</span></div></a>
+              <a class="mega-item" href="#month"><img src="assets/featured-month.png" alt=""><div><b>Hapé of the Month</b><span>Força Feminina — limited June batch</span></div></a>
+              <a class="mega-item" href="#shop"><img src="assets/prod-parica.png" alt=""><div><b>Beginner Friendly</b><span>Start with Caboclo Paricá</span></div></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#ceremony-tools">Tools &amp; Kuripes <span class="chev"></span></a>
+        <div class="mega">
+          <div class="mega-inner">
+            <div class="mega-label">
+              <span class="eyebrow">Instruments of Ceremony</span>
+              <h4>Hand-carved by the same hands that make the medicine.</h4>
+              <p>Every tool is crafted on tribal land using ancestral techniques.</p>
+            </div>
+            <div class="mega-grid">
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-kuripe.jpg" alt=""><div><b>Kuripes &amp; Tepis</b><span>Self-applicators and sharing pipes</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/prod-spiritual.png" alt=""><div><b>Snuff Containers</b><span>Keep your medicine sealed and fresh</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-palosanto.jpg" alt=""><div><b>First Ceremony Kit</b><span>Hapé + kuripe + palo santo, save 15%</span></div></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#ceremony-tools">Sacred Botanicals <span class="chev"></span></a>
+        <div class="mega">
+          <div class="mega-inner">
+            <div class="mega-label">
+              <span class="eyebrow">Companions of the Medicine</span>
+              <h4>What the forest offers around the ceremony.</h4>
+              <p>Smoke, sight, and heart — botanicals that prepare the space and the spirit.</p>
+            </div>
+            <div class="mega-grid">
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-palosanto.jpg" alt=""><div><b>Palo Santo &amp; Smudge</b><span>Cleanse your space before you begin</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/prod-sananga.webp" alt=""><div><b>Sananga Eye Drops</b><span>The companion medicine for clear sight</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-cacao.jpg" alt=""><div><b>Ceremonial Cacao</b><span>Open the heart before ceremony</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-mapacho.jpg" alt=""><div><b>Mapacho</b><span>Sacred rope tobacco of the Amazon</span></div></a>
+            </div>
+          </div>
+        </div>
+      </div>
       <a href="#tribes">Our Tribes</a>
-      <a href="#story">What is Hapé?</a>
-      <a href="#faq">Learn</a>
+      <div class="nav-item">
+        <a href="#story">Learn <span class="chev"></span></a>
+        <div class="mega">
+          <div class="mega-inner">
+            <div class="mega-label">
+              <span class="eyebrow">Walk In With Reverence</span>
+              <h4>Understand the medicine before you receive it.</h4>
+              <p>Guides, stories, and the people behind every tin.</p>
+            </div>
+            <div class="mega-grid">
+              <a class="mega-item" href="#story"><img src="assets/gesileu.png" alt=""><div><b>What is Hapé?</b><span>A prayer received through the breath</span></div></a>
+              <a class="mega-item" href="#guide"><img src="assets/intent-connection.jpg" alt=""><div><b>First Ceremony Guide</b><span>Free 12-page PDF for beginners</span></div></a>
+              <a class="mega-item" href="#tribes"><img src="assets/tribe-pana.webp" alt=""><div><b>Our Tribes</b><span>The guardians of this medicine</span></div></a>
+              <a class="mega-item" href="#faq"><img src="assets/intent-grounding.jpg" alt=""><div><b>Questions &amp; Answers</b><span>Legality, freshness, fair trade</span></div></a>
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
     <div class="nav-actions">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -411,7 +510,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
 </section>
 
 <!-- FEATURED -->
-<section class="featured">
+<section class="featured" id="month">
   <div class="wrap">
     <div class="featured-grid">
       <div class="featured-img">
@@ -507,6 +606,83 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
           <div class="pprice">From $14.00 <small>· 4 sizes</small></div>
           <button class="btn btn-dark">Choose Size</button>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CEREMONY TOOLS -->
+<section class="ceremony" id="ceremony-tools">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Complete the Ritual</span>
+      <h2>Tools for your ceremony</h2>
+      <p>The medicine is half of the practice. These are its companions — the instruments and botanicals that hold the space.</p>
+    </div>
+    <div class="prod-grid">
+      <div class="prod-card">
+        <div class="img-box">
+          <span class="prod-tag">Essential</span>
+          <img src="assets/thumb-kuripe.jpg" alt="Bamboo kuripe self-applicator">
+        </div>
+        <div class="prod-body">
+          <div class="tribe">Applicator Pipe</div>
+          <h3>Bamboo Kuripe</h3>
+          <p class="tool-desc">The self-applicator every practice begins with. Hand-carved and bound on tribal land.</p>
+          <div class="pprice">From $18.00</div>
+          <button class="btn btn-dark">Shop Kuripes</button>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="img-box">
+          <img src="assets/thumb-palosanto.jpg" alt="Palo santo sticks">
+        </div>
+        <div class="prod-body">
+          <div class="tribe">Sacred Smoke</div>
+          <h3>Palo Santo</h3>
+          <p class="tool-desc">Sustainably gathered holy wood. Cleanse your space before you receive the medicine.</p>
+          <div class="pprice">From $9.00</div>
+          <button class="btn btn-dark">Shop Incense</button>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="img-box">
+          <img src="assets/prod-sananga.webp" alt="Sananga eye drops">
+        </div>
+        <div class="prod-body">
+          <div class="tribe">Companion Medicine</div>
+          <h3>Sananga Eye Drops</h3>
+          <p class="tool-desc">Traditional eye medicine of the forest, used before ceremony for clear sight.</p>
+          <div class="pprice">$23.00</div>
+          <button class="btn btn-dark">Shop Sananga</button>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="img-box">
+          <img src="assets/thumb-cacao.jpg" alt="Ceremonial cacao block and beans">
+        </div>
+        <div class="prod-body">
+          <div class="tribe">Heart Opener</div>
+          <h3>Ceremonial Cacao</h3>
+          <p class="tool-desc">Pure, single-origin cacao prepared the traditional way. Open the heart before ceremony.</p>
+          <div class="pprice">From $24.00</div>
+          <button class="btn btn-dark">Shop Cacao</button>
+        </div>
+      </div>
+    </div>
+    <div class="kit-band">
+      <div class="kit-imgs">
+        <img src="assets/prod-parica.png" alt="Caboclo Paricá tin">
+        <img src="assets/thumb-kuripe.jpg" alt="Bamboo kuripe">
+        <img src="assets/thumb-palosanto.jpg" alt="Palo santo">
+      </div>
+      <div>
+        <h3>The First Ceremony Kit</h3>
+        <p>Caboclo Paricá + bamboo kuripe + palo santo — everything your first ceremony needs, blessed and boxed together.</p>
+      </div>
+      <div class="kit-cta">
+        <div class="kit-price"><small>$52.00</small>$44.00</div>
+        <button class="btn btn-clay">Build My Kit — Save 15%</button>
       </div>
     </div>
   </div>
