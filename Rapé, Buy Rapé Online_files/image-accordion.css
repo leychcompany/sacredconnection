@@ -1,0 +1,185 @@
+.accordion-container {
+    display: flex;
+    width: 100%;
+    height: 650px; /* Ajuste a altura conforme necessário */
+}
+
+.accordion {
+    flex: 1;
+    cursor: pointer;
+    transition: flex 0.8s ease;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    margin: 10px;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    position: relative;
+    width: 100%;
+}
+
+.accordion.active {
+    flex: 3; /* Expande a aba ativa */    
+}
+
+.accordion:not(.active) {
+    flex: 1; /* Mantém as abas não ativas uniformemente distribuídas */
+}
+
+.slide-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+    color: white;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;    
+    width: 100%;
+    background-position: top center;
+    background-size: cover;
+    padding: 60px 0px 60px 0px;
+    text-align: center;
+}
+
+.slide-content h2 {
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.slide-content p {
+    color: #fff;
+    text-transform: uppercase;    
+    font-size: 1.5em;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    transition: background 0.8s ease, color 0.8s ease;
+}
+
+.divider-image {
+    width: 80%;
+    margin: 10px auto; /* Espaço entre o título e a descrição */
+}
+
+.accordion.active .divider-image {
+    width: 40%;
+    margin: 10px auto; /* Espaço entre o título e a descrição */
+}
+
+.accordion:not(.active) .slide-content h2 {
+    font-size: 1.5rem;
+}
+
+.accordion:not(.active) .slide-content p {
+    font-size: 1.2rem;
+}
+
+.accordion.active .slide-content p {   
+    background: #ec2300;
+    border-radius: 4px;
+    width: 30%;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.accordion.active .slide-content p:hover {   
+    background: #B20000;
+    transition: background 0.8s ease, color 0.8s ease;
+}
+
+.accordion a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.accordion a:hover {
+    text-decoration: underline;
+}
+
+
+@media only screen and (max-width: 640px) {
+    .accordion-container {
+        height: 500px; /* Adjust the height for mobile */
+    }
+
+    .accordion.active {
+        flex: 5; /* Expand the active accordion to flex 4 */
+    }
+	.accordion.active .slide-content p {   
+		width: 90%;
+	}
+	
+    .accordion:not(.active) {
+        flex: 1; /* Keep the inactive accordion items at flex 1 */
+    }
+}
+
+
+/*END*/
+
+
+
+
+
+
+
+
+.swiper-container {
+    width: 100%;
+    height: 100%;
+    padding: 20px 0;
+}
+
+.swiper-slide {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.product-item {
+    padding: 15px;
+    text-align: center;
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.product-item h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+	color: #fff;
+}
+
+.product-item p {
+    font-size: 16px;
+    color: #555;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
