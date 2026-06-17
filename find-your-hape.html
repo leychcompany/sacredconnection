@@ -183,8 +183,8 @@ a{color:inherit;text-decoration:none}
     <!-- Q2: Intention -->
     <section class="step" data-step="2" data-key="intention">
       <div class="step-question">
-        <h2>What is your spirit asking for?</h2>
-        <p class="sub">Choose what resonates most right now. You can always explore other blends later.</p>
+        <h2>What are you hoping to experience?</h2>
+        <p class="sub">Pick what best matches what you're looking for. You can always explore other blends later.</p>
         <div class="options">
           <button class="option" data-value="grounding">
             <span class="option-icon">🌿</span>
@@ -458,11 +458,18 @@ function showStep(n) {
 document.querySelectorAll('.option').forEach(btn => {
   btn.addEventListener('click', () => {
     const step = btn.closest('.step');
+    if (step.dataset.advancing) return;
     step.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
     btn.classList.add('selected');
     const key = step.dataset.key;
     answers[key] = btn.dataset.value;
-    step.querySelector('[data-action="next"]').disabled = false;
+    const nextBtn = step.querySelector('[data-action="next"]');
+    if (nextBtn) nextBtn.disabled = false;
+    step.dataset.advancing = 'true';
+    setTimeout(() => {
+      delete step.dataset.advancing;
+      showStep(parseInt(step.dataset.step, 10) + 1);
+    }, 350);
   });
 });
 
