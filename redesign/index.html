@@ -70,6 +70,8 @@ header{position:sticky;top:0;z-index:100;background:rgba(252,249,243,.92);backdr
 .mega-item img{width:60px;height:60px;border-radius:7px;object-fit:cover;flex-shrink:0}
 .mega-item b{display:block;font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:2px}
 .mega-item span{font-size:12.5px;color:rgba(22,19,16,.55);line-height:1.45;display:block}
+.nav-cta{margin-left:4px;padding:12px 22px;border-radius:2px;background:var(--clay);color:#fff;font-size:13px;font-weight:600;letter-spacing:.05em;white-space:nowrap;flex-shrink:0;transition:all .25s ease}
+.nav-cta:hover{background:var(--clay-dark);transform:translateY(-1px);color:#fff}
 .nav-actions{display:flex;align-items:center;gap:18px}
 .nav-actions svg{width:21px;height:21px;stroke:var(--ink);fill:none;stroke-width:1.6}
 .cart-btn{position:relative;cursor:pointer}
@@ -273,6 +275,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
 
 @media (max-width:960px){
   .nav-links{display:none}
+  .nav-cta{display:none}
   .story-grid,.featured-grid,.guide-grid{grid-template-columns:1fr;gap:48px}
   .ritual-steps,.testi-grid,.impact-band{grid-template-columns:1fr}
   .intentions-grid,.prod-grid,.tribes-grid{grid-template-columns:repeat(2,1fr)}
@@ -310,6 +313,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
               <a class="mega-item" href="#shop"><img src="assets/prod-feminine-force.png" alt=""><div><b>All Hapé Blends</b><span>40+ medicines from nine nations</span></div></a>
               <a class="mega-item" href="#intentions"><img src="assets/intent-clarity.jpg" alt=""><div><b>Shop by Intention</b><span>Grounding · clarity · cleansing · connection</span></div></a>
               <a class="mega-item" href="#month"><img src="assets/featured-month.png" alt=""><div><b>Hapé of the Month</b><span>Força Feminina — limited June batch</span></div></a>
+              <a class="mega-item" href="find-your-hape.html"><img src="assets/intent-grounding.jpg" alt=""><div><b>Find Your Hapé</b><span>2-minute quiz · personalized match</span></div></a>
               <a class="mega-item" href="#shop"><img src="assets/prod-parica.png" alt=""><div><b>Beginner Friendly</b><span>Start with Caboclo Paricá</span></div></a>
             </div>
           </div>
@@ -362,6 +366,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
             </div>
             <div class="mega-grid">
               <a class="mega-item" href="#story"><img src="assets/gesileu.png" alt=""><div><b>What is Hapé?</b><span>A prayer received through the breath</span></div></a>
+              <a class="mega-item" href="find-your-hape.html"><img src="assets/gesileu.png" alt=""><div><b>Find Your Hapé</b><span>Quiz for first-timers · free guide included</span></div></a>
               <a class="mega-item" href="#guide"><img src="assets/intent-connection.jpg" alt=""><div><b>First Ceremony Guide</b><span>Free 12-page PDF for beginners</span></div></a>
               <a class="mega-item" href="#tribes"><img src="assets/tribe-pana.webp" alt=""><div><b>Our Tribes</b><span>The guardians of this medicine</span></div></a>
               <a class="mega-item" href="#faq"><img src="assets/intent-grounding.jpg" alt=""><div><b>Questions &amp; Answers</b><span>Legality, freshness, fair trade</span></div></a>
@@ -370,6 +375,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
         </div>
       </div>
     </nav>
+    <a href="find-your-hape.html" class="nav-cta">Find Your Hapé</a>
     <div class="nav-actions">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
       <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -391,7 +397,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
       <p class="lede">For generations, the tribes of the Amazon have prepared hapé as a sacred bridge — between body and spirit, forest and breath. We carry that medicine to your practice, exactly as it was made: with prayer, fire, and intention.</p>
       <div class="hero-ctas">
         <a href="#shop" class="btn btn-clay">Explore the Medicine</a>
-        <a href="#story" class="btn btn-ghost">New to Hapé? Start Here</a>
+        <a href="find-your-hape.html" class="btn btn-ghost">Find Your Hapé</a>
       </div>
       <div class="hero-trust">
         <span><span class="stars">★★★★★</span> 4.9 from 2,300+ reviews</span>

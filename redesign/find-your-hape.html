@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find Your Hapé — Sacred Connection</title>
+<meta name="description" content="Answer a few gentle questions and we'll match you with the ceremonial hapé blend, tools, and ritual guidance meant for your path.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#161310;--forest:#16211A;--forest-2:#1E2D23;--moss:#48604F;
+  --clay:#B14E27;--clay-dark:#94401F;--gold:#C2A064;--gold-light:#DCC9A3;
+  --bone:#F7F2E8;--sand:#EEE5D2;--paper:#FCF9F3;--line:rgba(22,19,16,.12);
+  --serif:"Fraunces",Georgia,serif;--sans:"Inter",-apple-system,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);color:var(--ink);background:var(--bone);line-height:1.6;font-size:16px;min-height:100vh}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 32px;border-radius:2px;font-weight:600;font-size:15px;letter-spacing:.04em;transition:all .25s ease;cursor:pointer;border:none;font-family:inherit}
+.btn-clay{background:var(--clay);color:#fff}
+.btn-clay:hover{background:var(--clay-dark);transform:translateY(-1px)}
+.btn-dark{background:var(--forest);color:var(--bone)}
+.btn-dark:hover{background:var(--forest-2)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--ink);background:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* Header */
+.quiz-header{background:rgba(252,249,243,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:18px 0;position:sticky;top:0;z-index:50}
+.quiz-header .wrap{display:flex;align-items:center;justify-content:space-between;max-width:1200px}
+.logo img{height:40px;filter:brightness(.25) sepia(.4) hue-rotate(80deg) saturate(2)}
+.header-note{font-size:13px;color:rgba(22,19,16,.5);letter-spacing:.03em}
+
+/* Progress */
+.progress-wrap{max-width:1200px;margin:0 auto;padding:28px 24px 0}
+.progress-meta{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:rgba(22,19,16,.45);margin-bottom:10px}
+.progress-bar{height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--clay);width:0%;transition:width .4s ease}
+
+/* Steps */
+.quiz-main{padding:48px 0 96px}
+.step{display:none;animation:fadeUp .35s ease}
+.step.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.step-intro{text-align:center;padding:32px 0 16px}
+.step-intro .eyebrow{color:var(--clay);margin-bottom:18px;display:block}
+.step-intro h1{font-family:var(--serif);font-weight:400;font-size:clamp(34px,5vw,48px);line-height:1.12;margin-bottom:20px}
+.step-intro p{font-size:17px;color:rgba(22,19,16,.65);max-width:540px;margin:0 auto 36px;line-height:1.7}
+.trust-row{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:13px;color:rgba(22,19,16,.5);margin-top:32px}
+.trust-row span{display:flex;align-items:center;gap:6px}
+
+.step-question h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,36px);line-height:1.2;margin-bottom:10px;text-align:center}
+.step-question .sub{text-align:center;color:rgba(22,19,16,.55);font-size:15px;margin-bottom:36px}
+
+.options{display:grid;gap:12px}
+.option{display:flex;align-items:flex-start;gap:18px;padding:20px 22px;background:#fff;border:1.5px solid var(--line);border-radius:4px;cursor:pointer;transition:all .2s;text-align:left;width:100%;font-family:inherit;font-size:inherit;color:inherit}
+.option:hover{border-color:var(--gold);background:var(--paper)}
+.option.selected{border-color:var(--clay);background:rgba(177,78,39,.04);box-shadow:0 0 0 1px var(--clay)}
+.option-icon{width:48px;height:48px;border-radius:8px;background:var(--bone);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.option-body b{display:block;font-size:15.5px;font-weight:600;margin-bottom:3px}
+.option-body span{font-size:13.5px;color:rgba(22,19,16,.55);line-height:1.45}
+
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:40px;gap:16px}
+.step-nav .btn{min-width:140px}
+
+/* Results */
+.result-hero{text-align:center;margin-bottom:40px}
+.result-hero .eyebrow{color:var(--clay);margin-bottom:14px;display:block}
+.result-hero h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4vw,40px);line-height:1.15;margin-bottom:12px}
+.result-hero p{color:rgba(22,19,16,.6);font-size:16px;max-width:520px;margin:0 auto}
+
+.result-card{background:#fff;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:24px}
+.result-card .match-label{background:var(--forest);color:var(--gold-light);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:12px 24px}
+.result-product{display:grid;grid-template-columns:200px 1fr;gap:0}
+.result-product img{aspect-ratio:1;object-fit:cover;width:100%;height:100%}
+.result-info{padding:28px 32px;display:flex;flex-direction:column;justify-content:center}
+.result-info .tribe{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--moss);font-weight:700;margin-bottom:6px}
+.result-info h3{font-family:var(--serif);font-size:26px;font-weight:500;line-height:1.25;margin-bottom:10px}
+.result-info .why{color:rgba(22,19,16,.68);font-size:15px;line-height:1.65;margin-bottom:16px}
+.result-info .stars{color:#C98A2B;font-size:13px;letter-spacing:1.5px;margin-bottom:8px}
+.result-info .price{font-weight:600;font-size:18px;margin-bottom:20px}
+.result-info .btn{width:fit-content}
+
+.addons{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+.addon{background:#fff;border:1px solid var(--line);border-radius:4px;padding:20px;display:flex;gap:14px;align-items:flex-start}
+.addon img{width:56px;height:56px;border-radius:6px;object-fit:cover;flex-shrink:0}
+.addon b{display:block;font-size:14px;margin-bottom:3px}
+.addon span{font-size:12.5px;color:rgba(22,19,16,.55);line-height:1.45}
+.addon .tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--clay);font-weight:700;margin-bottom:4px;display:block}
+
+.email-band{background:var(--forest);color:var(--bone);border-radius:4px;padding:36px 40px;text-align:center}
+.email-band h3{font-family:var(--serif);font-size:24px;font-weight:400;color:#fff;margin-bottom:8px}
+.email-band p{font-size:14.5px;color:rgba(247,242,232,.65);margin-bottom:22px}
+.email-form{display:flex;gap:10px;max-width:440px;margin:0 auto}
+.email-form input{flex:1;padding:14px 18px;border:1px solid rgba(255,255,255,.2);border-radius:2px;background:rgba(255,255,255,.08);color:#fff;font-size:15px;font-family:inherit}
+.email-form input::placeholder{color:rgba(255,255,255,.4)}
+.email-form .btn{flex-shrink:0;padding:14px 24px;font-size:14px}
+.email-note{font-size:12px;color:rgba(247,242,232,.4);margin-top:14px}
+
+.edu-box{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:28px 32px;margin-bottom:24px}
+.edu-box h4{font-family:var(--serif);font-size:20px;font-weight:500;margin-bottom:10px}
+.edu-box p{font-size:14.5px;color:rgba(22,19,16,.65);line-height:1.65;margin-bottom:14px}
+.edu-box ul{list-style:none;font-size:14px;color:rgba(22,19,16,.65)}
+.edu-box li{padding:6px 0 6px 22px;position:relative}
+.edu-box li::before{content:"✦";position:absolute;left:0;color:var(--gold);font-size:11px;top:8px}
+
+@media(max-width:720px){
+  .result-product{grid-template-columns:1fr}
+  .result-product img{max-height:280px}
+  .addons{grid-template-columns:1fr}
+  .email-form{flex-direction:column}
+  .header-note{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="quiz-header">
+  <div class="wrap">
+    <a href="index.html" class="logo"><img src="assets/logo.webp" alt="Sacred Connection"></a>
+    <span class="header-note">2 minutes · no wrong answers</span>
+  </div>
+</header>
+
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-meta">
+    <span id="stepLabel">Your path</span>
+    <span id="stepCount">1 of 5</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<main class="quiz-main">
+  <div class="wrap">
+
+    <!-- INTRO -->
+    <section class="step active" data-step="0">
+      <div class="step-intro">
+        <span class="eyebrow">Find Your Hapé</span>
+        <h1>Let the medicine find <em style="font-style:italic;color:var(--clay)">you.</em></h1>
+        <p>Hapé is not one-size-fits-all. Each blend carries a different energy — grounding, clarity, cleansing, connection. Answer a few questions and we'll guide you to the blend, tools, and ritual meant for where you are right now.</p>
+        <button class="btn btn-clay" data-action="next">Begin — It Takes 2 Minutes</button>
+        <div class="trust-row">
+          <span>✦ 4.9 from 2,300+ reviews</span>
+          <span>✦ Beginner-friendly guidance</span>
+          <span>✦ No purchase required</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q1: Experience -->
+    <section class="step" data-step="1" data-key="experience">
+      <div class="step-question">
+        <h2>Have you worked with hapé before?</h2>
+        <p class="sub">Be honest — there's no wrong answer. This helps us calibrate strength and guidance.</p>
+        <div class="options">
+          <button class="option" data-value="first">
+            <span class="option-icon">🌱</span>
+            <span class="option-body"><b>This is completely new to me</b><span>I've heard about it but never tried it</span></span>
+          </button>
+          <button class="option" data-value="some">
+            <span class="option-icon">🍃</span>
+            <span class="option-body"><b>I've tried it a few times</b><span>Still learning what works for me</span></span>
+          </button>
+          <button class="option" data-value="regular">
+            <span class="option-icon">🔥</span>
+            <span class="option-body"><b>It's part of my practice</b><span>I use hapé regularly in ceremony</span></span>
+          </button>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button class="btn btn-ghost" data-action="back">Back</button>
+        <button class="btn btn-clay" data-action="next" disabled>Continue</button>
+      </div>
+    </section>
+
+    <!-- Q2: Intention -->
+    <section class="step" data-step="2" data-key="intention">
+      <div class="step-question">
+        <h2>What is your spirit asking for?</h2>
+        <p class="sub">Choose what resonates most right now. You can always explore other blends later.</p>
+        <div class="options">
+          <button class="option" data-value="grounding">
+            <span class="option-icon">🌿</span>
+            <span class="option-body"><b>Grounding &amp; presence</b><span>Feel rooted, calm, and in my body</span></span>
+          </button>
+          <button class="option" data-value="clarity">
+            <span class="option-icon">✨</span>
+            <span class="option-body"><b>Clarity &amp; focus</b><span>Quiet the noise and see clearly</span></span>
+          </button>
+          <button class="option" data-value="cleansing">
+            <span class="option-icon">💧</span>
+            <span class="option-body"><b>Cleansing &amp; release</b><span>Clear stagnant energy and let go</span></span>
+          </button>
+          <button class="option" data-value="connection">
+            <span class="option-icon">💛</span>
+            <span class="option-body"><b>Connection &amp; heart-opening</b><span>Deepen ceremony and open the heart</span></span>
+          </button>
+          <button class="option" data-value="unsure">
+            <span class="option-icon">🌙</span>
+            <span class="option-body"><b>I'm not sure yet</b><span>Guide me to a gentle starting point</span></span>
+          </button>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button class="btn btn-ghost" data-action="back">Back</button>
+        <button class="btn btn-clay" data-action="next" disabled>Continue</button>
+      </div>
+    </section>
+
+    <!-- Q3: Practice context -->
+    <section class="step" data-step="3" data-key="practice">
+      <div class="step-question">
+        <h2>How will you practice?</h2>
+        <p class="sub">This helps us recommend the right applicator for your ceremony.</p>
+        <div class="options">
+          <button class="option" data-value="solo">
+            <span class="option-icon">🧘</span>
+            <span class="option-body"><b>Solo, in private ceremony</b><span>Just me and the medicine</span></span>
+          </button>
+          <button class="option" data-value="sharing">
+            <span class="option-icon">🤝</span>
+            <span class="option-body"><b>Sharing with others</b><span>Circles, partners, or guided sessions</span></span>
+          </button>
+          <button class="option" data-value="both">
+            <span class="option-icon">🔄</span>
+            <span class="option-body"><b>Both solo and sharing</b><span>I want flexibility for different settings</span></span>
+          </button>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button class="btn btn-ghost" data-action="back">Back</button>
+        <button class="btn btn-clay" data-action="next" disabled>Continue</button>
+      </div>
+    </section>
+
+    <!-- Q4: Strength preference -->
+    <section class="step" data-step="4" data-key="strength">
+      <div class="step-question">
+        <h2>How deep do you want to go?</h2>
+        <p class="sub">Every blend has its own character. We'll match intensity to your comfort level.</p>
+        <div class="options">
+          <button class="option" data-value="gentle">
+            <span class="option-icon">🕊️</span>
+            <span class="option-body"><b>Gentle &amp; approachable</b><span>A soft entry — especially for beginners</span></span>
+          </button>
+          <button class="option" data-value="balanced">
+            <span class="option-icon">⚖️</span>
+            <span class="option-body"><b>Balanced &amp; steady</b><span>Noticeable but not overwhelming</span></span>
+          </button>
+          <button class="option" data-value="deep">
+            <span class="option-icon">🌊</span>
+            <span class="option-body"><b>Deep &amp; transformative</b><span>I'm ready for a powerful experience</span></span>
+          </button>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button class="btn btn-ghost" data-action="back">Back</button>
+        <button class="btn btn-clay" data-action="next" disabled>See My Match</button>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="step" data-step="5" id="results">
+      <div class="result-hero">
+        <span class="eyebrow">Your Match</span>
+        <h2 id="resultHeadline">We found your blend.</h2>
+        <p id="resultSub">Based on what you shared, this is the medicine your path is pointing toward.</p>
+      </div>
+
+      <div class="result-card">
+        <div class="match-label" id="matchLabel">Recommended for you</div>
+        <div class="result-product">
+          <img id="resultImg" src="assets/prod-parica.png" alt="">
+          <div class="result-info">
+            <div class="tribe" id="resultTribe">Caboclo Nation</div>
+            <h3 id="resultName">Paricá — Grounding Classic</h3>
+            <div class="stars" id="resultStars">★★★★★ <i style="font-style:normal;color:rgba(22,19,16,.35);font-size:12px;margin-left:6px">(142)</i></div>
+            <p class="why" id="resultWhy"></p>
+            <div class="price" id="resultPrice">From $14.00</div>
+            <button class="btn btn-clay" id="resultCta">Add to Cart — Begin Your Ceremony</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="edu-box" id="eduBox">
+        <h4 id="eduTitle">Why this blend for you</h4>
+        <p id="eduIntro"></p>
+        <ul id="eduList"></ul>
+      </div>
+
+      <div class="addons" id="addons"></div>
+
+      <div class="email-band">
+        <h3>Save your match + get the First Ceremony Guide</h3>
+        <p>We'll email your personalized recommendation and our free 12-page guide — plus <b style="color:var(--gold-light)">10% off</b> your first order with code SACRED10.</p>
+        <form class="email-form" id="emailForm">
+          <input type="email" placeholder="Your email address" required aria-label="Email address">
+          <button type="submit" class="btn btn-clay">Send My Guide</button>
+        </form>
+        <p class="email-note">No spam. Unsubscribe anytime.</p>
+      </div>
+
+      <div class="step-nav" style="justify-content:center;margin-top:40px">
+        <a href="index.html" class="btn btn-ghost">Back to Shop</a>
+        <button class="btn btn-ghost" data-action="restart">Start Over</button>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+const PRODUCTS = {
+  parica: {
+    name: 'Paricá — Grounding Classic',
+    tribe: 'Caboclo Nation',
+    image: 'assets/prod-parica.png',
+    price: 'From $14.00',
+    stars: '★★★★★ (142)',
+    why: 'The most trusted entry point in our collection. Paricá is earthy, grounding, and approachable — the blend elders recommend for first ceremonies.',
+    edu: 'Paricá is prepared by Caboclo makers who blend mapacho with paricá tree ash — a recipe designed to root you in the body without overwhelming the spirit.',
+    bullets: ['Ideal for your first ceremony', 'Gentle strength that builds trust with the medicine', 'Pairs perfectly with a bamboo kuripe for solo practice']
+  },
+  feminine: {
+    name: 'Força Feminina — Feminine Force',
+    tribe: 'Yawanawá Nation',
+    image: 'assets/prod-feminine-force.png',
+    price: 'From $16.00',
+    stars: '★★★★★ (218)',
+    why: 'Carried by the women of the Yawanawá nation, this blend opens the heart and deepens connection — beloved in ceremony circles worldwide.',
+    edu: 'Feminine Force honors the feminine energy of the forest. It is grounding yet heart-opening — a medicine of softness, strength, and sacred intimacy.',
+    bullets: ['Heart-opening energy for connection and ceremony', 'One of our most-reviewed blends', 'Beautiful for solo practice or sharing in circle']
+  },
+  nukini: {
+    name: 'Nukini — 7 Stars',
+    tribe: 'Nukini Nation',
+    image: 'assets/prod-nukini-7stars.png',
+    price: 'From $15.00',
+    stars: '★★★★★ (94)',
+    why: 'A clarity blend from the Nukini people — sharpens focus, quiets mental chatter, and brings a luminous stillness to your practice.',
+    edu: '7 Stars is crafted for seekers who want mental clarity and vision. The Nukini recipe uses specific forest ashes that lift fog and sharpen perception.',
+    bullets: ['Excellent for meditation and focused practice', 'Clears mental noise without heaviness', 'A favorite among experienced practitioners']
+  },
+  spiritual: {
+    name: 'Spiritual — Deep Cleansing',
+    tribe: 'Shawãdawa Nation',
+    image: 'assets/prod-spiritual.png',
+    price: 'From $14.00',
+    stars: '★★★★★ (76)',
+    why: 'A powerful cleansing medicine from the Shawãdawa. Used to clear stagnant energy, release what no longer serves, and reset the spirit.',
+    edu: 'Spiritual is prepared for deep energetic work. The Shawãdawa recipe is known for its purifying character — strong, direct, and transformative.',
+    bullets: ['Deep cleansing for release and renewal', 'Best when you are ready for intensity', 'Pairs well with sananga for a full clearing ritual']
+  }
+};
+
+const ADDONS = {
+  kuripe: { tag: 'Essential tool', name: 'Bamboo Kuripe', desc: 'The self-applicator every solo practice needs.', image: 'assets/thumb-kuripe.jpg', price: 'From $18.00' },
+  tepi: { tag: 'For sharing', name: 'Ceremonial Tepi', desc: 'A sharing pipe for administering to others in circle.', image: 'assets/thumb-kuripe.jpg', price: 'From $28.00' },
+  palo: { tag: 'Sacred smoke', name: 'Palo Santo', desc: 'Cleanse your space before you begin.', image: 'assets/thumb-palosanto.jpg', price: 'From $9.00' },
+  sananga: { tag: 'Companion medicine', name: 'Sananga Eye Drops', desc: 'Clear sight before deep cleansing work.', image: 'assets/prod-sananga.webp', price: '$23.00' },
+  kit: { tag: 'Save 15%', name: 'First Ceremony Kit', desc: 'Hapé + kuripe + palo santo — everything to begin.', image: 'assets/thumb-palosanto.jpg', price: '$44.00' }
+};
+
+const STEP_LABELS = ['Welcome', 'Experience', 'Intention', 'Practice', 'Intensity', 'Your match'];
+const TOTAL = 5;
+
+let current = 0;
+const answers = {};
+
+function getRecommendation(a) {
+  const { experience, intention, strength, practice } = a;
+  let product = 'parica';
+  const addons = [];
+  let headline = 'We found your blend.';
+  let showKit = false;
+
+  if (intention === 'connection') product = 'feminine';
+  else if (intention === 'clarity') product = 'nukini';
+  else if (intention === 'cleansing') product = 'spiritual';
+  else if (intention === 'grounding') product = 'parica';
+  else if (intention === 'unsure') product = 'parica';
+
+  if (experience === 'first') {
+    if (strength === 'deep' && intention === 'cleansing') product = 'spiritual';
+    else if (strength === 'deep' && intention === 'clarity') product = 'nukini';
+    else if (intention === 'connection') product = 'feminine';
+    else if (intention !== 'cleansing') product = 'parica';
+    showKit = true;
+    headline = 'A gentle place to begin.';
+  }
+
+  if (strength === 'gentle' && product === 'spiritual') product = 'parica';
+  if (strength === 'gentle' && product === 'nukini' && experience === 'first') product = 'parica';
+
+  if (practice === 'solo' || practice === 'both') addons.push('kuripe');
+  if (practice === 'sharing' || practice === 'both') addons.push('tepi');
+  if (experience === 'first' || intention === 'unsure') addons.push('palo');
+  if (product === 'spiritual' || intention === 'cleansing') addons.push('sananga');
+  if (showKit && experience === 'first') addons.unshift('kit');
+
+  return { product, addons: [...new Set(addons)], headline, showKit };
+}
+
+function renderResults() {
+  const rec = getRecommendation(answers);
+  const p = PRODUCTS[rec.product];
+
+  document.getElementById('resultHeadline').textContent = rec.headline;
+  document.getElementById('resultImg').src = p.image;
+  document.getElementById('resultImg').alt = p.name;
+  document.getElementById('resultTribe').textContent = p.tribe;
+  document.getElementById('resultName').textContent = p.name;
+  document.getElementById('resultStars').innerHTML = p.stars.replace(/\((\d+)\)/, '<i style="font-style:normal;color:rgba(22,19,16,.35);font-size:12px;margin-left:6px">($1)</i>');
+  document.getElementById('resultWhy').textContent = p.why;
+  document.getElementById('resultPrice').textContent = p.price;
+  document.getElementById('eduIntro').textContent = p.edu;
+  document.getElementById('eduList').innerHTML = p.bullets.map(b => `<li>${b}</li>`).join('');
+
+  const addonsEl = document.getElementById('addons');
+  addonsEl.innerHTML = rec.addons.slice(0, 4).map(key => {
+    const a = ADDONS[key];
+    return `<div class="addon"><img src="${a.image}" alt=""><div><span class="tag">${a.tag}</span><b>${a.name}</b><span>${a.desc} · ${a.price}</span></div></div>`;
+  }).join('');
+
+  if (rec.showKit) {
+    document.getElementById('matchLabel').textContent = 'Best starting point for you';
+    document.getElementById('resultSub').textContent = 'Based on what you shared, we recommend beginning here — with the tools and guidance to support your first ceremony.';
+  } else {
+    document.getElementById('matchLabel').textContent = 'Recommended for you';
+    document.getElementById('resultSub').textContent = 'Based on what you shared, this is the medicine your path is pointing toward.';
+  }
+}
+
+function updateProgress() {
+  const pct = current === 0 ? 0 : (current / TOTAL) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('stepCount').textContent = current === 0 ? 'Start' : current + ' of ' + TOTAL;
+  document.getElementById('stepLabel').textContent = STEP_LABELS[current] || 'Your match';
+  document.getElementById('progressWrap').style.display = current === 5 ? 'none' : 'block';
+}
+
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.querySelector(`[data-step="${n}"]`).classList.add('active');
+  current = n;
+  updateProgress();
+  if (n === 5) renderResults();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('.option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const step = btn.closest('.step');
+    step.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    btn.classList.add('selected');
+    const key = step.dataset.key;
+    answers[key] = btn.dataset.value;
+    step.querySelector('[data-action="next"]').disabled = false;
+  });
+});
+
+document.addEventListener('click', e => {
+  const action = e.target.closest('[data-action]');
+  if (!action) return;
+  const act = action.dataset.action;
+  if (act === 'next') {
+    if (current < TOTAL) showStep(current + 1);
+  } else if (act === 'back') {
+    if (current > 0) showStep(current - 1);
+  } else if (act === 'restart') {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('[data-action="next"]').forEach(b => b.disabled = true);
+    showStep(0);
+  }
+});
+
+document.getElementById('emailForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.textContent = 'Sent ✓';
+  btn.disabled = true;
+});
+
+// Capture UTM params for campaign tracking
+const params = new URLSearchParams(location.search);
+['utm_source','utm_medium','utm_campaign'].forEach(k => {
+  if (params.get(k)) sessionStorage.setItem(k, params.get(k));
+});
+
+updateProgress();
+</script>
+</body>
+</html>
