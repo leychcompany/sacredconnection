@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sacred Connection — Ceremonial Hapé, Direct From the Amazon</title>
 <meta name="description" content="Authentic ceremonial Hapé prepared by indigenous tribes of the Amazon. Fair-trade, small-batch sacred snuff for grounding, clarity and connection. Ships from the USA.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/hero.webp" as="image" type="image/webp" fetchpriority="high">
 <style>
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400 500;font-display:swap;src:url('assets/fonts/fraunces-400.woff2') format('woff2')}
+@font-face{font-family:'Fraunces';font-style:italic;font-weight:400;font-display:swap;src:url('assets/fonts/fraunces-400-italic.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 700;font-display:swap;src:url('assets/fonts/inter-400.woff2') format('woff2')}
 :root{
   --ink:#161310;
   --forest:#16211A;
@@ -28,7 +29,11 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;font-size:16px}
-img{display:block;max-width:100%}
+img{display:block;max-width:100%;height:auto}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:200}
+.skip-link:focus{left:16px;top:16px;width:auto;height:auto;padding:12px 18px;background:var(--forest);color:#fff;font-weight:600}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
 .serif{font-family:var(--serif)}
@@ -62,7 +67,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(252,249,243,.92);backdr
 .nav-item:hover .mega,.nav-item:focus-within .mega{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
 .mega-inner{max-width:1200px;margin:0 auto;padding:46px 24px 52px;display:grid;grid-template-columns:300px 1fr;gap:60px;align-items:start}
 .mega-label .eyebrow{color:var(--clay);margin-bottom:12px;display:block}
-.mega-label h4{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.22;color:var(--ink)}
+.mega-label .mega-title{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.22;color:var(--ink);margin:0}
 .mega-label p{font-size:13.5px;color:rgba(22,19,16,.55);margin-top:12px;line-height:1.6}
 .mega-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 36px;align-content:start}
 .mega-item{display:flex;gap:16px;align-items:center;padding:12px 14px;border-radius:5px;transition:background .2s}
@@ -73,14 +78,15 @@ header{position:sticky;top:0;z-index:100;background:rgba(252,249,243,.92);backdr
 .nav-cta{margin-left:4px;padding:12px 22px;border-radius:2px;background:var(--clay);color:#fff;font-size:13px;font-weight:600;letter-spacing:.05em;white-space:nowrap;flex-shrink:0;transition:all .25s ease}
 .nav-cta:hover{background:var(--clay-dark);transform:translateY(-1px);color:#fff}
 .nav-actions{display:flex;align-items:center;gap:18px}
-.nav-actions svg{width:21px;height:21px;stroke:var(--ink);fill:none;stroke-width:1.6}
+.icon-btn{background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;color:inherit}
+.nav-actions svg,.icon-btn svg{width:21px;height:21px;stroke:var(--ink);fill:none;stroke-width:1.6}
 .cart-btn{position:relative;cursor:pointer}
 .cart-count{position:absolute;top:-7px;right:-9px;background:var(--clay);color:#fff;font-size:10px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 
 /* ============ HERO ============ */
 .hero{position:relative;min-height:88vh;display:flex;align-items:center;color:#fff;overflow:hidden}
 .hero .wrap{width:100%}
-.hero-bg{position:absolute;inset:0;background:url("assets/hero.jpg") 70% 25%/cover no-repeat}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 25%}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(13,18,14,.92) 0%,rgba(13,18,14,.66) 45%,rgba(13,18,14,.18) 100%),linear-gradient(to top,rgba(13,18,14,.85) 0%,transparent 35%)}
 .hero-inner{position:relative;z-index:2;max-width:640px;padding:120px 0}
 .hero .eyebrow{color:var(--gold);margin-bottom:22px;display:flex;align-items:center;gap:14px}
@@ -120,7 +126,7 @@ section{padding:104px 0}
 .story-img{position:relative}
 .story-img img{border-radius:3px;aspect-ratio:4/4.6;object-fit:cover;width:100%}
 .story-img::after{content:"";position:absolute;inset:18px -18px -18px 18px;border:1px solid var(--gold);border-radius:3px;z-index:-1}
-.story-caption{margin-top:30px;font-size:13px;color:rgba(22,19,16,.55);letter-spacing:.05em}
+.story-caption{margin-top:30px;font-size:13px;color:#5c554d;letter-spacing:.05em}
 .link-arrow{color:var(--clay);font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:8px;margin-top:8px}
 .link-arrow:hover{gap:12px}
 .link-arrow::after{content:"→";transition:all .2s}
@@ -148,10 +154,10 @@ section{padding:104px 0}
 .intent-body .eyebrow{color:var(--gold);font-size:10.5px;margin-bottom:8px}
 .intent-body h3{font-family:var(--serif);font-weight:500;font-size:26px;margin-bottom:6px}
 .intent-body p{font-size:13.5px;color:rgba(255,255,255,.75);line-height:1.5}
-.intent-1 .bg{background-image:url("assets/intent-grounding.jpg")}
-.intent-2 .bg{background-image:url("assets/intent-clarity.jpg")}
-.intent-3 .bg{background-image:url("assets/intent-cleansing.jpg")}
-.intent-4 .bg{background-image:url("assets/intent-connection.jpg")}
+.intent-1 .bg{background-image:url("assets/intent-grounding.webp")}
+.intent-2 .bg{background-image:url("assets/intent-clarity.webp")}
+.intent-3 .bg{background-image:url("assets/intent-cleansing.webp")}
+.intent-4 .bg{background-image:url("assets/intent-connection.webp")}
 
 /* ============ FEATURED PRODUCT ============ */
 .featured{background:var(--sand)}
@@ -159,23 +165,23 @@ section{padding:104px 0}
 .featured-img{position:relative;background:var(--paper);border-radius:4px;padding:48px;box-shadow:0 30px 60px -30px rgba(22,19,16,.25)}
 .featured-img img{width:100%}
 .badge{position:absolute;top:24px;left:24px;background:var(--clay);color:#fff;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;border-radius:2px}
-.featured-info .eyebrow{color:var(--clay);margin-bottom:14px}
+.featured-info .eyebrow{color:var(--clay-dark);margin-bottom:14px}
 .featured-info h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.4vw,40px);line-height:1.15;margin-bottom:8px}
 .featured-info .tribe-tag{font-size:14px;color:var(--moss);font-weight:600;letter-spacing:.06em;margin-bottom:18px;display:block}
 .featured-info p{color:rgba(22,19,16,.7);margin-bottom:24px}
 .rating-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;font-size:14px}
 .rating-row .stars{color:#C98A2B;letter-spacing:2px;font-size:15px}
-.rating-row span{color:rgba(22,19,16,.55)}
+.rating-row span{color:#5c554d}
 .price-row{display:flex;align-items:baseline;gap:14px;margin-bottom:26px}
 .price{font-family:var(--serif);font-size:34px;font-weight:500}
-.price-was{font-size:18px;color:rgba(22,19,16,.4);text-decoration:line-through}
-.price-save{background:rgba(177,78,39,.12);color:var(--clay);font-size:12px;font-weight:700;padding:4px 10px;border-radius:2px;letter-spacing:.06em}
+.price-was{font-size:18px;color:#5c554d;text-decoration:line-through}
+.price-save{background:rgba(177,78,39,.18);color:#7a3319;font-size:12px;font-weight:700;padding:4px 10px;border-radius:2px;letter-spacing:.06em}
 .buy-row{display:flex;gap:14px;margin-bottom:22px}
 .qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:2px;background:#fff}
 .qty button{width:44px;height:54px;border:none;background:none;font-size:18px;cursor:pointer;color:var(--ink)}
 .qty input{width:40px;text-align:center;border:none;font-size:16px;font-weight:600;background:none}
 .buy-row .btn{flex:1}
-.assurance{display:flex;gap:22px;flex-wrap:wrap;font-size:13px;color:rgba(22,19,16,.6)}
+.assurance{display:flex;gap:22px;flex-wrap:wrap;font-size:13px;color:#5c554d}
 .assurance span{display:flex;align-items:center;gap:7px}
 .assurance svg{width:15px;height:15px;stroke:var(--moss);fill:none;stroke-width:2}
 
@@ -193,14 +199,14 @@ section{padding:104px 0}
 .prod-body .tribe{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--moss);font-weight:700;margin-bottom:6px}
 .prod-body h3{font-family:var(--serif);font-size:19px;font-weight:500;line-height:1.3;margin-bottom:8px}
 .prod-body .stars{color:#C98A2B;font-size:13px;letter-spacing:1.5px;margin-bottom:10px}
-.prod-body .stars i{color:rgba(22,19,16,.35);font-style:normal;font-size:12px;letter-spacing:0;margin-left:6px}
+.prod-body .stars i{color:#5c554d;font-style:normal;font-size:12px;letter-spacing:0;margin-left:6px}
 .prod-body .pprice{font-weight:600;font-size:16px;margin-bottom:16px;margin-top:auto}
-.prod-body .pprice small{color:rgba(22,19,16,.5);font-weight:400}
+.prod-body .pprice small{color:#5c554d;font-weight:400}
 .prod-body .btn{padding:12px 16px;font-size:13px;width:100%}
 
 /* ============ CEREMONY TOOLS ============ */
 .ceremony{background:var(--paper);border-top:1px solid var(--line)}
-.tool-desc{font-size:13.5px;color:rgba(22,19,16,.6);line-height:1.55;margin-bottom:14px}
+.tool-desc{font-size:13.5px;color:#5c554d;line-height:1.55;margin-bottom:14px}
 .kit-band{margin-top:44px;background:var(--forest);border-radius:4px;color:var(--bone);display:grid;grid-template-columns:auto 1fr auto;gap:40px;align-items:center;padding:38px 48px}
 .kit-imgs{display:flex}
 .kit-imgs img{width:78px;height:78px;border-radius:50%;object-fit:cover;border:3px solid var(--forest-2);margin-left:-20px;background:var(--sand)}
@@ -209,7 +215,7 @@ section{padding:104px 0}
 .kit-band p{font-size:14.5px;color:rgba(247,242,232,.65);max-width:520px}
 .kit-cta{text-align:right}
 .kit-price{font-family:var(--serif);font-size:30px;color:var(--gold-light);margin-bottom:14px}
-.kit-price small{font-family:var(--sans);font-size:15px;color:rgba(247,242,232,.45);text-decoration:line-through;margin-right:10px}
+.kit-price small{font-family:var(--sans);font-size:15px;color:rgba(247,242,232,.72);text-decoration:line-through;margin-right:10px}
 
 /* ============ TRIBES ============ */
 .tribes{background:var(--forest-2);color:var(--bone)}
@@ -235,7 +241,7 @@ section{padding:104px 0}
 .testi-card .stars{color:#C98A2B;letter-spacing:2px;margin-bottom:18px;font-size:14px}
 .testi-card blockquote{font-family:var(--serif);font-size:18px;line-height:1.55;font-style:italic;color:rgba(22,19,16,.85);margin-bottom:24px;flex:1}
 .testi-card .who{font-size:14px;font-weight:600}
-.testi-card .who span{display:block;font-weight:400;font-size:12.5px;color:rgba(22,19,16,.5);margin-top:2px}
+.testi-card .who span{display:block;font-weight:400;font-size:12.5px;color:#5c554d;margin-top:2px}
 
 /* ============ GUIDE / EMAIL ============ */
 .guide{background:linear-gradient(110deg,var(--forest) 0%,var(--forest-2) 100%);color:var(--bone);position:relative;overflow:hidden}
@@ -252,7 +258,7 @@ section{padding:104px 0}
 .guide-list{list-style:none;display:flex;flex-direction:column;gap:18px}
 .guide-list li{display:flex;gap:14px;align-items:flex-start;font-size:15px;color:rgba(247,242,232,.8)}
 .guide-list li::before{content:"✦";color:var(--gold);font-size:13px;margin-top:3px}
-.fine{font-size:12px;color:rgba(247,242,232,.4);margin-top:14px}
+.fine{font-size:12px;color:rgba(247,242,232,.72);margin-top:14px}
 
 /* ============ FAQ ============ */
 .faq-list{max-width:760px;margin:0 auto}
@@ -267,10 +273,10 @@ section{padding:104px 0}
 footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
 .foot-main{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px;padding:72px 0 56px}
 .foot-main img{height:40px;width:auto;margin-bottom:20px;opacity:.9}
-.foot-main h4{color:var(--bone);font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:18px;font-weight:600}
+.foot-main .foot-col-title{color:var(--bone);font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:18px;font-weight:600}
 .foot-main ul{list-style:none;display:flex;flex-direction:column;gap:11px}
 .foot-main a:hover{color:var(--gold-light)}
-.foot-legal{border-top:1px solid rgba(255,255,255,.1);padding:28px 0;font-size:12px;color:rgba(247,242,232,.4);line-height:1.7}
+.foot-legal{border-top:1px solid rgba(255,255,255,.1);padding:28px 0;font-size:12px;color:rgba(247,242,232,.72);line-height:1.7}
 .foot-legal .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:14px}
 
 @media (max-width:960px){
@@ -294,11 +300,13 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
 </head>
 <body>
 
+<a href="#main" class="skip-link">Skip to content</a>
+
 <div class="announce">Free US shipping over $100 &nbsp;·&nbsp; <b>10% off your first order</b> with code <b>SACRED10</b> &nbsp;·&nbsp; Small-batch, ships from the USA</div>
 
 <header>
   <div class="wrap nav">
-    <a href="#" class="logo"><img src="assets/logo.png" alt="Amazonia"></a>
+    <a href="/" class="logo"><img src="assets/logo-header.webp" alt="Amazonia" width="250" height="79"></a>
     <nav class="nav-links">
       <div class="nav-item">
         <a href="#shop">Shop Hapé <span class="chev"></span></a>
@@ -306,15 +314,15 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
           <div class="mega-inner">
             <div class="mega-label">
               <span class="eyebrow">The Medicine</span>
-              <h4>Find the blend your spirit is asking for.</h4>
+              <p class="mega-title">Find the blend your spirit is asking for.</p>
               <p>Forty-plus medicines from nine tribal nations. One standard: pure, ceremonial, fair-trade.</p>
             </div>
             <div class="mega-grid">
-              <a class="mega-item" href="#shop"><img src="assets/prod-feminine-force.png" alt=""><div><b>All Hapé Blends</b><span>40+ medicines from nine nations</span></div></a>
-              <a class="mega-item" href="#intentions"><img src="assets/intent-clarity.jpg" alt=""><div><b>Shop by Intention</b><span>Grounding · clarity · cleansing · connection</span></div></a>
-              <a class="mega-item" href="#month"><img src="assets/featured-month.png" alt=""><div><b>Hapé of the Month</b><span>Força Feminina — limited June batch</span></div></a>
-              <a class="mega-item" href="find-your-hape.html"><img src="assets/intent-grounding.jpg" alt=""><div><b>Find Your Hapé</b><span>2-minute quiz · personalized match</span></div></a>
-              <a class="mega-item" href="#shop"><img src="assets/prod-parica.png" alt=""><div><b>Beginner Friendly</b><span>Start with Caboclo Paricá</span></div></a>
+              <a class="mega-item" href="#shop"><img src="assets/prod-feminine-force.webp" alt="" width="60" height="60" loading="lazy"><div><b>All Hapé Blends</b><span>40+ medicines from nine nations</span></div></a>
+              <a class="mega-item" href="#intentions"><img src="assets/intent-clarity.webp" alt="" width="60" height="60" loading="lazy"><div><b>Shop by Intention</b><span>Grounding · clarity · cleansing · connection</span></div></a>
+              <a class="mega-item" href="#month"><img src="assets/featured-month.webp" alt="" width="60" height="60" loading="lazy"><div><b>Hapé of the Month</b><span>Força Feminina — limited June batch</span></div></a>
+              <a class="mega-item" href="find-your-hape.html"><img src="assets/intent-grounding.webp" alt="" width="60" height="60" loading="lazy"><div><b>Find Your Hapé</b><span>2-minute quiz · personalized match</span></div></a>
+              <a class="mega-item" href="#shop"><img src="assets/prod-parica.webp" alt="" width="60" height="60" loading="lazy"><div><b>Beginner Friendly</b><span>Start with Caboclo Paricá</span></div></a>
             </div>
           </div>
         </div>
@@ -325,13 +333,13 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
           <div class="mega-inner">
             <div class="mega-label">
               <span class="eyebrow">Instruments of Ceremony</span>
-              <h4>Hand-carved by the same hands that make the medicine.</h4>
+              <p class="mega-title">Hand-carved by the same hands that make the medicine.</p>
               <p>Every tool is crafted on tribal land using ancestral techniques.</p>
             </div>
             <div class="mega-grid">
-              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-kuripe.jpg" alt=""><div><b>Kuripes &amp; Tepis</b><span>Self-applicators and sharing pipes</span></div></a>
-              <a class="mega-item" href="#ceremony-tools"><img src="assets/prod-spiritual.png" alt=""><div><b>Snuff Containers</b><span>Keep your medicine sealed and fresh</span></div></a>
-              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-palosanto.jpg" alt=""><div><b>First Ceremony Kit</b><span>Hapé + kuripe + palo santo, save 15%</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-kuripe.jpg" alt="" width="60" height="60" loading="lazy"><div><b>Kuripes &amp; Tepis</b><span>Self-applicators and sharing pipes</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/prod-spiritual.webp" alt="" width="60" height="60" loading="lazy"><div><b>Snuff Containers</b><span>Keep your medicine sealed and fresh</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-palosanto.jpg" alt="" width="60" height="60" loading="lazy"><div><b>First Ceremony Kit</b><span>Hapé + kuripe + palo santo, save 15%</span></div></a>
             </div>
           </div>
         </div>
@@ -342,14 +350,14 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
           <div class="mega-inner">
             <div class="mega-label">
               <span class="eyebrow">Companions of the Medicine</span>
-              <h4>What the forest offers around the ceremony.</h4>
+              <p class="mega-title">What the forest offers around the ceremony.</p>
               <p>Smoke, sight, and heart — botanicals that prepare the space and the spirit.</p>
             </div>
             <div class="mega-grid">
-              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-palosanto.jpg" alt=""><div><b>Palo Santo &amp; Smudge</b><span>Cleanse your space before you begin</span></div></a>
-              <a class="mega-item" href="#ceremony-tools"><img src="assets/prod-sananga.webp" alt=""><div><b>Sananga Eye Drops</b><span>The companion medicine for clear sight</span></div></a>
-              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-cacao.jpg" alt=""><div><b>Ceremonial Cacao</b><span>Open the heart before ceremony</span></div></a>
-              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-mapacho.jpg" alt=""><div><b>Mapacho</b><span>Sacred rope tobacco of the Amazon</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-palosanto.jpg" alt="" width="60" height="60" loading="lazy"><div><b>Palo Santo &amp; Smudge</b><span>Cleanse your space before you begin</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/prod-sananga.webp" alt="" width="60" height="60" loading="lazy"><div><b>Sananga Eye Drops</b><span>The companion medicine for clear sight</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-cacao.jpg" alt="" width="60" height="60" loading="lazy"><div><b>Ceremonial Cacao</b><span>Open the heart before ceremony</span></div></a>
+              <a class="mega-item" href="#ceremony-tools"><img src="assets/thumb-mapacho.jpg" alt="" width="60" height="60" loading="lazy"><div><b>Mapacho</b><span>Sacred rope tobacco of the Amazon</span></div></a>
             </div>
           </div>
         </div>
@@ -361,15 +369,15 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
           <div class="mega-inner">
             <div class="mega-label">
               <span class="eyebrow">Walk In With Reverence</span>
-              <h4>Understand the medicine before you receive it.</h4>
+              <p class="mega-title">Understand the medicine before you receive it.</p>
               <p>Guides, stories, and the people behind every tin.</p>
             </div>
             <div class="mega-grid">
-              <a class="mega-item" href="#story"><img src="assets/gesileu.png" alt=""><div><b>What is Hapé?</b><span>A prayer received through the breath</span></div></a>
-              <a class="mega-item" href="find-your-hape.html"><img src="assets/gesileu.png" alt=""><div><b>Find Your Hapé</b><span>Quiz for first-timers · free guide included</span></div></a>
-              <a class="mega-item" href="#guide"><img src="assets/intent-connection.jpg" alt=""><div><b>First Ceremony Guide</b><span>Free 12-page PDF for beginners</span></div></a>
-              <a class="mega-item" href="#tribes"><img src="assets/tribe-pana.webp" alt=""><div><b>Our Tribes</b><span>The guardians of this medicine</span></div></a>
-              <a class="mega-item" href="#faq"><img src="assets/intent-grounding.jpg" alt=""><div><b>Questions &amp; Answers</b><span>Legality, freshness, fair trade</span></div></a>
+              <a class="mega-item" href="#story"><img src="assets/gesileu.webp" alt="" width="60" height="60" loading="lazy"><div><b>What is Hapé?</b><span>A prayer received through the breath</span></div></a>
+              <a class="mega-item" href="find-your-hape.html"><img src="assets/gesileu.webp" alt="" width="60" height="60" loading="lazy"><div><b>Find Your Hapé</b><span>Quiz for first-timers · free guide included</span></div></a>
+              <a class="mega-item" href="#guide"><img src="assets/intent-connection.webp" alt="" width="60" height="60" loading="lazy"><div><b>First Ceremony Guide</b><span>Free 12-page PDF for beginners</span></div></a>
+              <a class="mega-item" href="#tribes"><img src="assets/tribe-pana.webp" alt="" width="60" height="60" loading="lazy"><div><b>Our Tribes</b><span>The guardians of this medicine</span></div></a>
+              <a class="mega-item" href="#faq"><img src="assets/intent-grounding.webp" alt="" width="60" height="60" loading="lazy"><div><b>Questions &amp; Answers</b><span>Legality, freshness, fair trade</span></div></a>
             </div>
           </div>
         </div>
@@ -377,19 +385,21 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
     </nav>
     <a href="find-your-hape.html" class="nav-cta">Find Your Hapé</a>
     <div class="nav-actions">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span class="cart-btn">
-        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        <span class="cart-count">0</span>
-      </span>
+      <button type="button" class="icon-btn" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></button>
+      <button type="button" class="icon-btn" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+      <button type="button" class="icon-btn cart-btn" aria-label="Cart, 0 items">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count" aria-hidden="true">0</span>
+      </button>
     </div>
   </div>
 </header>
 
+<main id="main">
+
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-bg"></div>
+  <img class="hero-bg" src="assets/hero.webp" alt="" width="640" height="298" fetchpriority="high" decoding="async">
   <div class="wrap">
     <div class="hero-inner">
       <span class="eyebrow">Ceremonial Amazonian Hapé · Made by Indigenous Hands</span>
@@ -432,7 +442,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
         <div class="story-caption">Pictured: Gesileu Phaspy Ninawa, master hapé maker and partner of Sacred Connection.</div>
       </div>
       <div class="story-img">
-        <img src="assets/gesileu.png" alt="Gesileu Phaspy Ninawa, master hapé maker">
+        <img src="assets/gesileu.webp" alt="Gesileu Phaspy Ninawa, master hapé maker" width="720" height="739" loading="lazy">
       </div>
     </div>
   </div>
@@ -521,7 +531,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
     <div class="featured-grid">
       <div class="featured-img">
         <span class="badge">Hapé of the Month</span>
-        <img src="assets/featured-month.png" alt="Yawanawá Feminine Force tin family">
+        <img src="assets/featured-month.webp" alt="Yawanawá Feminine Force tin family" width="900" height="900" loading="lazy">
       </div>
       <div class="featured-info">
         <span class="eyebrow">June Ceremony Blend</span>
@@ -536,9 +546,10 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
         </div>
         <div class="buy-row">
           <div class="qty">
-            <button type="button" onclick="this.parentNode.querySelector('input').stepDown()">−</button>
-            <input type="number" value="1" min="1">
-            <button type="button" onclick="this.parentNode.querySelector('input').stepUp()">+</button>
+            <button type="button" aria-label="Decrease quantity" onclick="this.parentNode.querySelector('input').stepDown()">−</button>
+            <label for="qty-input" class="visually-hidden">Quantity</label>
+            <input id="qty-input" type="number" value="1" min="1" aria-label="Quantity">
+            <button type="button" aria-label="Increase quantity" onclick="this.parentNode.querySelector('input').stepUp()">+</button>
           </div>
           <button class="btn btn-clay">Add to Cart — Begin Your Ceremony</button>
         </div>
@@ -566,7 +577,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
       <div class="prod-card">
         <div class="img-box">
           <span class="prod-tag">Bestseller</span>
-          <img src="assets/prod-feminine-force.png" alt="Yawanawá Hapé Feminine Force">
+          <img src="assets/prod-feminine-force.webp" alt="Yawanawá Hapé Feminine Force" width="600" height="600" loading="lazy">
         </div>
         <div class="prod-body">
           <div class="tribe">Yawanawá Nation</div>
@@ -578,7 +589,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
       </div>
       <div class="prod-card">
         <div class="img-box">
-          <img src="assets/prod-nukini-7stars.png" alt="Nukini Hapé 7 Stars">
+          <img src="assets/prod-nukini-7stars.webp" alt="Nukini Hapé 7 Stars" width="600" height="600" loading="lazy">
         </div>
         <div class="prod-body">
           <div class="tribe">Nukini Nation</div>
@@ -591,7 +602,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
       <div class="prod-card">
         <div class="img-box">
           <span class="prod-tag">Beginner Friendly</span>
-          <img src="assets/prod-parica.png" alt="Caboclo Hapé Paricá Xtra">
+          <img src="assets/prod-parica.webp" alt="Caboclo Hapé Paricá Xtra" width="600" height="600" loading="lazy">
         </div>
         <div class="prod-body">
           <div class="tribe">Caboclo Lineage</div>
@@ -603,7 +614,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
       </div>
       <div class="prod-card">
         <div class="img-box">
-          <img src="assets/prod-spiritual.png" alt="Shawãdawa Hapé Spiritual">
+          <img src="assets/prod-spiritual.webp" alt="Shawãdawa Hapé Spiritual" width="600" height="600" loading="lazy">
         </div>
         <div class="prod-body">
           <div class="tribe">Shawãdawa Nation</div>
@@ -629,7 +640,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
       <div class="prod-card">
         <div class="img-box">
           <span class="prod-tag">Essential</span>
-          <img src="assets/thumb-kuripe.jpg" alt="Bamboo kuripe self-applicator">
+          <img src="assets/thumb-kuripe.jpg" alt="Bamboo kuripe self-applicator" width="480" height="480" loading="lazy">
         </div>
         <div class="prod-body">
           <div class="tribe">Applicator Pipe</div>
@@ -641,7 +652,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
       </div>
       <div class="prod-card">
         <div class="img-box">
-          <img src="assets/thumb-palosanto.jpg" alt="Palo santo sticks">
+          <img src="assets/thumb-palosanto.jpg" alt="Palo santo sticks" width="480" height="480" loading="lazy">
         </div>
         <div class="prod-body">
           <div class="tribe">Sacred Smoke</div>
@@ -653,7 +664,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
       </div>
       <div class="prod-card">
         <div class="img-box">
-          <img src="assets/prod-sananga.webp" alt="Sananga eye drops">
+          <img src="assets/prod-sananga.webp" alt="Sananga eye drops" width="600" height="600" loading="lazy">
         </div>
         <div class="prod-body">
           <div class="tribe">Companion Medicine</div>
@@ -665,7 +676,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
       </div>
       <div class="prod-card">
         <div class="img-box">
-          <img src="assets/thumb-cacao.jpg" alt="Ceremonial cacao block and beans">
+          <img src="assets/thumb-cacao.jpg" alt="Ceremonial cacao block and beans" width="480" height="480" loading="lazy">
         </div>
         <div class="prod-body">
           <div class="tribe">Heart Opener</div>
@@ -678,9 +689,9 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
     </div>
     <div class="kit-band">
       <div class="kit-imgs">
-        <img src="assets/prod-parica.png" alt="Caboclo Paricá tin">
-        <img src="assets/thumb-kuripe.jpg" alt="Bamboo kuripe">
-        <img src="assets/thumb-palosanto.jpg" alt="Palo santo">
+        <img src="assets/prod-parica.webp" alt="Caboclo Paricá tin" width="600" height="600" loading="lazy">
+        <img src="assets/thumb-kuripe.jpg" alt="Bamboo kuripe" width="480" height="480" loading="lazy">
+        <img src="assets/thumb-palosanto.jpg" alt="Palo santo" width="480" height="480" loading="lazy">
       </div>
       <div>
         <h3>The First Ceremony Kit</h3>
@@ -704,28 +715,28 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
     </div>
     <div class="tribes-grid">
       <div class="tribe-card">
-        <img src="assets/tribe-pana.webp" alt="Panã of the Katukina">
+        <img src="assets/tribe-pana.webp" alt="Panã of the Katukina" width="600" height="840" loading="lazy">
         <div class="tribe-label">
           <div class="name">Panã</div>
           <div class="nation">Katukina Nation</div>
         </div>
       </div>
       <div class="tribe-card">
-        <img src="assets/tribe-xiti.jpg" alt="Xiti of the Nukini">
+        <img src="assets/tribe-xiti.jpg" alt="Xiti of the Nukini" width="600" height="840" loading="lazy">
         <div class="tribe-label">
           <div class="name">Xiti</div>
           <div class="nation">Nukini Nation</div>
         </div>
       </div>
       <div class="tribe-card">
-        <img src="assets/tribe-shawacaia.jpg" alt="Shawãcaiá of the Shawãdawa">
+        <img src="assets/tribe-shawacaia.jpg" alt="Shawãcaiá of the Shawãdawa" width="600" height="840" loading="lazy">
         <div class="tribe-label">
           <div class="name">Shawãcaiá</div>
           <div class="nation">Shawãdawa Nation</div>
         </div>
       </div>
       <div class="tribe-card">
-        <img src="assets/tribe-nawashahu.jpg" alt="Nawashahu of the Yawanawá">
+        <img src="assets/tribe-nawashahu.jpg" alt="Nawashahu of the Yawanawá" width="600" height="840" loading="lazy">
         <div class="tribe-label">
           <div class="name">Nawashahu</div>
           <div class="nation">Yawanawá Nation</div>
@@ -829,15 +840,17 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
 </section>
 
 <!-- FOOTER -->
+</main>
+
 <footer>
   <div class="wrap">
     <div class="foot-main">
       <div>
-        <img src="assets/logo.webp" alt="Sacred Connection">
-        <p style="max-width:300px;font-size:13.5px;line-height:1.7">Sacred Connection partners directly with indigenous communities of the Amazon, carrying authentic ceremonial medicine to seekers with fairness, reverence, and care.</p>
+        <img src="assets/logo.webp" alt="Amazonia" width="500" height="158" loading="lazy">
+        <p style="max-width:300px;font-size:13.5px;line-height:1.7;color:rgba(247,242,232,.82)">Sacred Connection partners directly with indigenous communities of the Amazon, carrying authentic ceremonial medicine to seekers with fairness, reverence, and care.</p>
       </div>
       <div>
-        <h4>Shop</h4>
+        <p class="foot-col-title">Shop</p>
         <ul>
           <li><a href="#shop">All Hapé</a></li>
           <li><a href="#">Tobacco-Free Blends</a></li>
@@ -847,7 +860,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
         </ul>
       </div>
       <div>
-        <h4>Learn</h4>
+        <p class="foot-col-title">Learn</p>
         <ul>
           <li><a href="#story">What is Hapé?</a></li>
           <li><a href="#guide">First Ceremony Guide</a></li>
@@ -856,7 +869,7 @@ footer{background:var(--ink);color:rgba(247,242,232,.65);font-size:14px}
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <p class="foot-col-title">Support</p>
         <ul>
           <li><a href="#">Contact Us</a></li>
           <li><a href="#">Shipping & Returns</a></li>

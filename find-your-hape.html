@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Find Your Hapé — Sacred Connection</title>
 <meta name="description" content="Answer a few gentle questions and we'll match you with the ceremonial hapé blend, tools, and ritual guidance meant for your path.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/fraunces-400.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400 500;font-display:swap;src:url('assets/fonts/fraunces-400.woff2') format('woff2')}
+@font-face{font-family:'Fraunces';font-style:italic;font-weight:400;font-display:swap;src:url('assets/fonts/fraunces-400-italic.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 700;font-display:swap;src:url('assets/fonts/inter-400.woff2') format('woff2')}
 :root{
   --ink:#161310;--forest:#16211A;--forest-2:#1E2D23;--moss:#48604F;
   --clay:#B14E27;--clay-dark:#94401F;--gold:#C2A064;--gold-light:#DCC9A3;
@@ -121,9 +123,11 @@ a{color:inherit;text-decoration:none}
 </head>
 <body>
 
+<main id="main">
+
 <header class="quiz-header">
   <div class="wrap">
-    <a href="index.html" class="logo"><img src="assets/logo.png" alt="Amazonia"></a>
+    <a href="index.html" class="logo"><img src="assets/logo-header.webp" alt="Amazonia" width="250" height="79"></a>
     <span class="header-note">2 minutes · no wrong answers</span>
   </div>
 </header>
@@ -314,6 +318,8 @@ a{color:inherit;text-decoration:none}
     </section>
 
   </div>
+</main>
+
 </main>
 
 <script>
