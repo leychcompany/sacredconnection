@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       const result = await checkout({
         billing_address: body.billing_address as Address,
         shipping_address: body.shipping_address as Address,
-        payment_method: body.payment_method || "stripe",
+        payment_method: body.payment_method || "zelle",
         customer_note: body.customer_note,
         cartToken: session.cartToken,
         nonce: session.nonce,

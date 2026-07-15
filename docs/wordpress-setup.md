@@ -17,11 +17,15 @@ Complete these steps on **sacred-snuff.com** so the Next.js storefront can creat
    - `WC_CONSUMER_KEY`
    - `WC_CONSUMER_SECRET`
 
-## 3. Stripe (recommended for headless checkout)
+## 3. Payments (headless Store API)
 
-1. Enable Stripe in WooCommerce → Settings → Payments
-2. Prefer Stripe over Square for headless Store API checkout
-3. Square can remain enabled for the legacy WordPress checkout during transition
+Currently exposed gateways on the live Store API: **`authnet`** (Authorize.net) and **`zelle`**.
+
+- **Zelle** works for headless checkout today (creates an on-hold WooCommerce order).
+- **Authorize.net** may need additional payment-data fields for card entry in a later iteration.
+- **Stripe** is still the nicest headless card option if you enable it in WooCommerce → Settings → Payments; Square is a poor fit for Store API checkout.
+
+The Next.js checkout uses whatever `payment_methods` the Store API returns on the cart.
 
 ## 4. Product revalidation webhook
 

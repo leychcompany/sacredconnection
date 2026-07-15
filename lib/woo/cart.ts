@@ -146,6 +146,8 @@ export async function checkout(params: {
       shipping_address: params.shipping_address,
       payment_method: params.payment_method,
       customer_note: params.customer_note || "",
+      // Required by Store API when extension plugins register checkout fields
+      extensions: {},
     },
     cartToken: params.cartToken,
     nonce: params.nonce,

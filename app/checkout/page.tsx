@@ -28,7 +28,7 @@ export default function CheckoutPage() {
   const [shipping, setShipping] = useState<Address>(emptyAddress);
   const [sameAsBilling, setSameAsBilling] = useState(true);
   const [note, setNote] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("stripe");
+  const [paymentMethod, setPaymentMethod] = useState("zelle");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [localCart, setLocalCart] = useState<Cart | null>(null);
@@ -109,15 +109,28 @@ export default function CheckoutPage() {
       if (!res.ok) throw new Error(data.message || "Checkout failed");
 
       const orderId = data.order_id as number;
+      const paymentStatus = data.payment_result?.payment_status as
+        | string
+        | undefined;
       const redirect = data.payment_result?.redirect_url as string | undefined;
 
-      if (redirect && !redirect.includes("sacredconnection") && !redirect.includes("localhost")) {
-        // Payment gateway may redirect to hosted page; still land on confirmation when possible
+      // Store API already created the WooCommerce order — confirm on our site.
+      if (orderId && (paymentStatus === "success" || paymentStatus === "pending")) {
+        router.push(`/order/${orderId}`);
+        return;
+      }
+
+      if (redirect) {
         window.location.href = redirect;
         return;
       }
 
-      router.push(`/order/${orderId}`);
+      if (orderId) {
+        router.push(`/order/${orderId}`);
+        return;
+      }
+
+      throw new Error("Checkout completed but no order id was returned");
       await refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Checkout failed");
@@ -258,7 +271,7 @@ export default function CheckoutPage() {
               <div className="space-y-2">
                 {(display.payment_methods?.length
                   ? display.payment_methods
-                  : ["stripe"]
+                  : ["zelle"]
                 ).map((method) => (
                   <label
                     key={method}
@@ -270,7 +283,15 @@ export default function CheckoutPage() {
                       checked={paymentMethod === method}
                       onChange={() => setPaymentMethod(method)}
                     />
-                    <span className="capitalize">{method.replace(/_/g, " ")}</span>
+                    <span>
+                      {method === "zelle"
+                        ? "Zelle"
+                        : method === "authnet"
+                          ? "Credit card (Authorize.net)"
+                          : method.includes("stripe")
+                            ? "Credit card (Stripe)"
+                            : method.replace(/_/g, " ")}
+                    </span>
                   </label>
                 ))}
               </div>
