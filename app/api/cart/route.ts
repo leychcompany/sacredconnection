@@ -5,14 +5,14 @@ import {
   removeCartItem,
   updateCartItem,
 } from "@/lib/woo/cart";
-import { getCartSession, setCartSession } from "@/lib/cart-session";
+import { applyCartSession, getCartSession } from "@/lib/cart-session";
 
 export async function GET() {
   try {
     const session = await getCartSession();
     const { cart, cartToken, nonce } = await getCart(session.cartToken);
-    await setCartSession(cartToken, nonce ?? session.nonce);
-    return NextResponse.json(cart);
+    const res = NextResponse.json(cart);
+    return applyCartSession(res, cartToken, nonce ?? session.nonce);
   } catch (e) {
     return NextResponse.json(
       { message: e instanceof Error ? e.message : "Failed to load cart" },
@@ -26,10 +26,8 @@ export async function POST(request: Request) {
     const body = await request.json();
     let session = await getCartSession();
 
-    // Store API mutations require a fresh Nonce — bootstrap cart session first.
     if (!session.nonce || !session.cartToken) {
       const boot = await getCart(session.cartToken);
-      await setCartSession(boot.cartToken, boot.nonce);
       session = { cartToken: boot.cartToken, nonce: boot.nonce };
     }
 
@@ -43,7 +41,7 @@ export async function POST(request: Request) {
     try {
       if (action === "add") {
         result = await addToCart({
-          id: body.id,
+          id: Number(body.id),
           quantity: body.quantity ?? 1,
           variation: body.variation,
           ...withSession,
@@ -62,14 +60,13 @@ export async function POST(request: Request) {
       } else {
         return NextResponse.json({ message: "Unknown action" }, { status: 400 });
       }
-    } catch (firstError) {
-      // Retry once with a freshly minted nonce if the previous one expired.
-      const boot = await getCart(session.cartToken);
-      await setCartSession(boot.cartToken, boot.nonce);
+    } catch {
+      const boot = await getCart(null);
+      session = { cartToken: boot.cartToken, nonce: boot.nonce };
       const retry = { cartToken: boot.cartToken, nonce: boot.nonce };
       if (action === "add") {
         result = await addToCart({
-          id: body.id,
+          id: Number(body.id),
           quantity: body.quantity ?? 1,
           variation: body.variation,
           ...retry,
@@ -83,12 +80,12 @@ export async function POST(request: Request) {
       } else if (action === "remove") {
         result = await removeCartItem({ key: body.key, ...retry });
       } else {
-        throw firstError;
+        throw new Error("Unknown action");
       }
     }
 
-    await setCartSession(result.cartToken, result.nonce ?? session.nonce);
-    return NextResponse.json(result.cart);
+    const res = NextResponse.json(result.cart);
+    return applyCartSession(res, result.cartToken, result.nonce ?? session.nonce);
   } catch (e) {
     return NextResponse.json(
       { message: e instanceof Error ? e.message : "Cart error" },

@@ -1,15 +1,12 @@
 import { NextResponse } from "next/server";
-import { checkout, selectShippingRate, updateCustomer } from "@/lib/woo/cart";
+import { checkout, getCart, selectShippingRate, updateCustomer } from "@/lib/woo/cart";
 import type { Address } from "@/lib/woo/types";
-import { getCartSession, setCartSession } from "@/lib/cart-session";
-
-import { getCart } from "@/lib/woo/cart";
+import { applyCartSession, getCartSession } from "@/lib/cart-session";
 
 async function ensureSession() {
   let session = await getCartSession();
   if (!session.nonce || !session.cartToken) {
     const boot = await getCart(session.cartToken);
-    await setCartSession(boot.cartToken, boot.nonce);
     session = { cartToken: boot.cartToken, nonce: boot.nonce };
   }
   return session;
@@ -28,8 +25,8 @@ export async function POST(request: Request) {
         cartToken: session.cartToken,
         nonce: session.nonce,
       });
-      await setCartSession(result.cartToken, result.nonce ?? session.nonce);
-      return NextResponse.json(result.cart);
+      const res = NextResponse.json(result.cart);
+      return applyCartSession(res, result.cartToken, result.nonce ?? session.nonce);
     }
 
     if (action === "select-shipping") {
@@ -39,8 +36,8 @@ export async function POST(request: Request) {
         cartToken: session.cartToken,
         nonce: session.nonce,
       });
-      await setCartSession(result.cartToken, result.nonce ?? session.nonce);
-      return NextResponse.json(result.cart);
+      const res = NextResponse.json(result.cart);
+      return applyCartSession(res, result.cartToken, result.nonce ?? session.nonce);
     }
 
     if (action === "checkout") {
@@ -52,8 +49,8 @@ export async function POST(request: Request) {
         cartToken: session.cartToken,
         nonce: session.nonce,
       });
-      await setCartSession(result.cartToken, result.nonce ?? session.nonce);
-      return NextResponse.json(result.result);
+      const res = NextResponse.json(result.result);
+      return applyCartSession(res, result.cartToken, result.nonce ?? session.nonce);
     }
 
     return NextResponse.json({ message: "Unknown action" }, { status: 400 });
