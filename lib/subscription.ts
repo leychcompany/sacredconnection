@@ -78,6 +78,19 @@ export function clearSubscriptions() {
   writeSubscriptions([]);
 }
 
+export function getSubscriptionForItem(
+  list: SubscriptionIntent[],
+  productId: number
+): SubscriptionIntent | undefined {
+  return list.find((s) => s.productId === productId);
+}
+
+export function removeSubscriptionByProductId(productId: number) {
+  const list = readSubscriptions();
+  const next = list.filter((s) => s.productId !== productId);
+  if (next.length !== list.length) writeSubscriptions(next);
+}
+
 export function subscriptionNote(list: SubscriptionIntent[]): string {
   if (!list.length) return "";
   const lines = list.map((s) => {

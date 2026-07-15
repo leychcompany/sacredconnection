@@ -246,7 +246,7 @@ export function Header() {
           <div className="flex items-center gap-4">
             <Link
               href="/find-your-hape"
-              className="hidden rounded-[2px] bg-[var(--clay)] px-[22px] py-3 text-[13px] font-semibold tracking-[0.05em] text-white transition hover:bg-[var(--clay-dark)] sm:inline-flex"
+              className="hidden rounded-[2px] bg-[var(--clay-dark)] px-[22px] py-3 text-[13px] font-semibold tracking-[0.05em] text-white shadow-sm transition hover:bg-[var(--forest)] sm:inline-flex"
             >
               Find Your Hapé
             </Link>
