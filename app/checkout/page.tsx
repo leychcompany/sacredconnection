@@ -6,6 +6,13 @@ import { FormEvent, useEffect, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import type { Address, Cart } from "@/lib/woo/types";
 import { formatStorePrice, stripHtml } from "@/lib/woo/types";
+import {
+  clearSubscriptions,
+  frequencyLabel as frequencyText,
+  readSubscriptions,
+  subscriptionNote,
+  type SubscriptionIntent,
+} from "@/lib/subscription";
 
 const emptyAddress: Address = {
   first_name: "",
@@ -32,10 +39,18 @@ export default function CheckoutPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [localCart, setLocalCart] = useState<Cart | null>(null);
+  const [subscriptions, setSubscriptions] = useState<SubscriptionIntent[]>([]);
 
   useEffect(() => {
     setLocalCart(cart);
   }, [cart]);
+
+  useEffect(() => {
+    const sync = () => setSubscriptions(readSubscriptions());
+    sync();
+    window.addEventListener("sc-subscriptions-change", sync);
+    return () => window.removeEventListener("sc-subscriptions-change", sync);
+  }, []);
 
   useEffect(() => {
     if (cart?.payment_methods?.length) {
@@ -94,6 +109,9 @@ export default function CheckoutPage() {
       const ship = sameAsBilling ? billing : shipping;
       await syncCustomer(billing, ship);
 
+      const subNote = subscriptionNote(subscriptions);
+      const combinedNote = [note.trim(), subNote].filter(Boolean).join("\n\n");
+
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -102,12 +120,13 @@ export default function CheckoutPage() {
           billing_address: { ...billing, email: billing.email, phone: billing.phone },
           shipping_address: { ...ship, email: billing.email, phone: billing.phone },
           payment_method: paymentMethod,
-          customer_note: note,
+          customer_note: combinedNote,
         }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Checkout failed");
 
+      clearSubscriptions();
       const orderId = data.order_id as number;
       const paymentStatus = data.payment_result?.payment_status as
         | string
@@ -259,6 +278,41 @@ export default function CheckoutPage() {
                 </div>
               )}
             </section>
+
+            {subscriptions.length > 0 && (
+              <section className="rounded-[4px] border border-[var(--clay)] bg-[var(--sand)] p-6 md:p-8">
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                  <h2 className="font-[family-name:var(--serif)] text-2xl">
+                    Your subscriptions
+                  </h2>
+                  <span className="rounded-full bg-[var(--clay)] px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white">
+                    Subscribe &amp; Save
+                  </span>
+                </div>
+                <p className="mb-4 text-sm text-[rgba(22,19,16,.65)]">
+                  Your first delivery ships with this order. We&apos;ll set up
+                  these recurring deliveries and apply your ritual discount to
+                  each one.
+                </p>
+                <ul className="space-y-2 text-sm">
+                  {subscriptions.map((s) => (
+                    <li
+                      key={`${s.productId}-${s.variation ?? ""}`}
+                      className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--line)] pb-2 last:border-0"
+                    >
+                      <span>
+                        {stripHtml(s.name)}
+                        {s.variation ? ` — ${s.variation}` : ""}
+                        {s.quantity > 1 ? ` ×${s.quantity}` : ""}
+                      </span>
+                      <span className="font-semibold text-[var(--clay)]">
+                        {frequencyText(s.frequency)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             <section className="rounded-[4px] border border-[var(--line)] bg-white p-6 md:p-8">
               <h2 className="mb-4 font-[family-name:var(--serif)] text-2xl">
