@@ -3,10 +3,22 @@ import { checkout, selectShippingRate, updateCustomer } from "@/lib/woo/cart";
 import type { Address } from "@/lib/woo/types";
 import { getCartSession, setCartSession } from "@/lib/cart-session";
 
+import { getCart } from "@/lib/woo/cart";
+
+async function ensureSession() {
+  let session = await getCartSession();
+  if (!session.nonce || !session.cartToken) {
+    const boot = await getCart(session.cartToken);
+    await setCartSession(boot.cartToken, boot.nonce);
+    session = { cartToken: boot.cartToken, nonce: boot.nonce };
+  }
+  return session;
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const session = await getCartSession();
+    const session = await ensureSession();
     const action = body.action as string;
 
     if (action === "update-customer") {

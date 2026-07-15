@@ -24,33 +24,67 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const session = await getCartSession();
+    let session = await getCartSession();
+
+    // Store API mutations require a fresh Nonce — bootstrap cart session first.
+    if (!session.nonce || !session.cartToken) {
+      const boot = await getCart(session.cartToken);
+      await setCartSession(boot.cartToken, boot.nonce);
+      session = { cartToken: boot.cartToken, nonce: boot.nonce };
+    }
+
     const action = body.action as string;
+    const withSession = {
+      cartToken: session.cartToken,
+      nonce: session.nonce,
+    };
 
     let result;
-    if (action === "add") {
-      result = await addToCart({
-        id: body.id,
-        quantity: body.quantity ?? 1,
-        variation: body.variation,
-        cartToken: session.cartToken,
-        nonce: session.nonce,
-      });
-    } else if (action === "update") {
-      result = await updateCartItem({
-        key: body.key,
-        quantity: body.quantity,
-        cartToken: session.cartToken,
-        nonce: session.nonce,
-      });
-    } else if (action === "remove") {
-      result = await removeCartItem({
-        key: body.key,
-        cartToken: session.cartToken,
-        nonce: session.nonce,
-      });
-    } else {
-      return NextResponse.json({ message: "Unknown action" }, { status: 400 });
+    try {
+      if (action === "add") {
+        result = await addToCart({
+          id: body.id,
+          quantity: body.quantity ?? 1,
+          variation: body.variation,
+          ...withSession,
+        });
+      } else if (action === "update") {
+        result = await updateCartItem({
+          key: body.key,
+          quantity: body.quantity,
+          ...withSession,
+        });
+      } else if (action === "remove") {
+        result = await removeCartItem({
+          key: body.key,
+          ...withSession,
+        });
+      } else {
+        return NextResponse.json({ message: "Unknown action" }, { status: 400 });
+      }
+    } catch (firstError) {
+      // Retry once with a freshly minted nonce if the previous one expired.
+      const boot = await getCart(session.cartToken);
+      await setCartSession(boot.cartToken, boot.nonce);
+      const retry = { cartToken: boot.cartToken, nonce: boot.nonce };
+      if (action === "add") {
+        result = await addToCart({
+          id: body.id,
+          quantity: body.quantity ?? 1,
+          variation: body.variation,
+          ...retry,
+        });
+      } else if (action === "update") {
+        result = await updateCartItem({
+          key: body.key,
+          quantity: body.quantity,
+          ...retry,
+        });
+      } else if (action === "remove") {
+        result = await removeCartItem({ key: body.key, ...retry });
+      } else {
+        throw firstError;
+      }
     }
 
     await setCartSession(result.cartToken, result.nonce ?? session.nonce);
