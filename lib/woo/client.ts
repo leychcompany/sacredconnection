@@ -30,6 +30,18 @@ export type StoreFetchOptions = {
   headers?: HeadersInit;
 };
 
+/** Cart/checkout GETs are session-specific via Cart-Token. LiteSpeed on
+ * sacred-snuff.com caches `/wc/store/v1/cart` as public and does not vary on
+ * Cart-Token, so uncached URLs are required or every shopper shares one ghost cart.
+ */
+function withCartCacheBust(path: string): string {
+  const isSessionPath =
+    path.startsWith("/cart") || path.startsWith("/checkout");
+  if (!isSessionPath) return path;
+  const bust = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  return path.includes("?") ? `${path}&_sc=${bust}` : `${path}?_sc=${bust}`;
+}
+
 export async function storeFetch<T>(
   path: string,
   options: StoreFetchOptions = {}
@@ -46,6 +58,8 @@ export async function storeFetch<T>(
 
   const headers: Record<string, string> = {
     Accept: "application/json",
+    "Cache-Control": "no-cache",
+    Pragma: "no-cache",
     ...(extraHeaders as Record<string, string>),
   };
 
@@ -59,11 +73,11 @@ export async function storeFetch<T>(
     headers["Nonce"] = nonce;
   }
 
-  const res = await fetch(`${getStoreApiBase()}${path}`, {
+  const res = await fetch(`${getStoreApiBase()}${withCartCacheBust(path)}`, {
     method,
     headers,
     body: body !== undefined ? JSON.stringify(body) : undefined,
-    cache,
+    cache: cache ?? "no-store",
     next,
   });
 

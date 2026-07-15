@@ -3,6 +3,17 @@ import { checkout, getCart, selectShippingRate, updateCustomer } from "@/lib/woo
 import type { Address } from "@/lib/woo/types";
 import { applyCartSession, getCartSession } from "@/lib/cart-session";
 
+export const dynamic = "force-dynamic";
+
+function noStoreJson(data: unknown, init?: ResponseInit) {
+  const res = NextResponse.json(data, init);
+  res.headers.set(
+    "Cache-Control",
+    "private, no-store, no-cache, must-revalidate, max-age=0"
+  );
+  return res;
+}
+
 async function ensureSession() {
   let session = await getCartSession();
   if (!session.nonce || !session.cartToken) {
@@ -25,7 +36,7 @@ export async function POST(request: Request) {
         cartToken: session.cartToken,
         nonce: session.nonce,
       });
-      const res = NextResponse.json(result.cart);
+      const res = noStoreJson(result.cart);
       return applyCartSession(res, result.cartToken, result.nonce ?? session.nonce);
     }
 
@@ -36,7 +47,7 @@ export async function POST(request: Request) {
         cartToken: session.cartToken,
         nonce: session.nonce,
       });
-      const res = NextResponse.json(result.cart);
+      const res = noStoreJson(result.cart);
       return applyCartSession(res, result.cartToken, result.nonce ?? session.nonce);
     }
 
@@ -49,13 +60,13 @@ export async function POST(request: Request) {
         cartToken: session.cartToken,
         nonce: session.nonce,
       });
-      const res = NextResponse.json(result.result);
+      const res = noStoreJson(result.result);
       return applyCartSession(res, result.cartToken, result.nonce ?? session.nonce);
     }
 
-    return NextResponse.json({ message: "Unknown action" }, { status: 400 });
+    return noStoreJson({ message: "Unknown action" }, { status: 400 });
   } catch (e) {
-    return NextResponse.json(
+    return noStoreJson(
       { message: e instanceof Error ? e.message : "Checkout error" },
       { status: 500 }
     );

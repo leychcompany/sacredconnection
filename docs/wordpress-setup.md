@@ -31,11 +31,26 @@ Complete these steps on **sacred-snuff.com** so the Next.js storefront can creat
    `https://YOUR_VERCEL_DOMAIN/api/revalidate?secret=YOUR_REVALIDATE_SECRET`
 4. Set the same secret in Vercel as `REVALIDATE_SECRET`
 
-## 5. Verify
+## 5. LiteSpeed / page cache (critical)
+
+LiteSpeed Cache on sacred-snuff.com was observed caching `GET /wp-json/wc/store/v1/cart` as **public for 7 days** and **not varying on the `Cart-Token` header**. That causes every shopper to share one ghost empty cart.
+
+Do one of the following in LiteSpeed Cache (or equivalent CDN):
+
+1. **Exclude** from cache:
+   - `/wp-json/wc/store/*`
+   - `/wp-json/wc/store/v1/cart*`
+   - `/wp-json/wc/store/v1/checkout*`
+2. Or force those REST routes to `no-cache` / private and vary by `Cart-Token`.
+
+The Next.js client already cache-busts cart/checkout URLs as a workaround, but excluding Store API from LiteSpeed is the correct fix.
+
+## 6. Verify
 
 1. Add a product to cart on the Next site
-2. Complete checkout
-3. Confirm the order appears under **WooCommerce → Orders** with stock reduced and notification emails sent
+2. Reload `/cart` — the item must still be there
+3. Complete checkout
+4. Confirm the order appears under **WooCommerce → Orders** with stock reduced and notification emails sent
 
 ## Env vars (Vercel / `.env.local`)
 
